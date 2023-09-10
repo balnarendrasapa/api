@@ -8,6 +8,10 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
+# Download and install killall 
+RUN apt-get update && apt-get install -y \
+    psmisc
+
 # Install make
 RUN apt-get update && apt-get install -y make
 
