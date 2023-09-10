@@ -8,9 +8,18 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 
+[tool.poetry.group.django]
+optional = true
+
+[tool.poetry.group.fastapi]
+optional = true
 
 [tool.poetry.group.django.dependencies]
 django = "^4.2.5"
+
+
+[tool.poetry.group.fastapi.dependencies]
+fastapi = "^0.103.1"
 
 [build-system]
 requires = ["poetry-core"]
