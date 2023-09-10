@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y make
 
 # Copy the poetry.lock and pyproject.toml files to the container
-COPY ./poetry.lock ./pyproject.toml ./makefile /app/
+COPY . /app/
 
 # Install dependencies using Poetry
 RUN pip install poetry uvicorn && \
