@@ -7,21 +7,54 @@ from django.contrib.auth.models import User
 from rest_framework import status
 # Create your views here.
 
-class UserList(APIView):
+class Userops(APIView):
     """
     List all users, or create a new user.
     """
     def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
         users = User.objects.all()
-        print(users)
         serializer = UserSerializer(users, many=True)
-        print(serializer.data)
-        # return Response(serializer.data)
         return Response({"users": serializer.data})
 
     def post(self, request, format=None):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            # serializer.save()
-            return Response({"users": serializer.data})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        """
+        Create a new user.
+        """
+        user = User.objects.create_user(
+            request.data['username'], 
+            request.data['email'], 
+            request.data['password']
+        )
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, format=None):
+        """
+        Update a user.
+        """
+        user = User.objects.get(username=request.data['username'])
+        user.email = request.data['email']
+
+        # check if old password is correct
+        if user.check_password(request.data['old_password']):
+            user.set_password(request.data['password'])
+        else:
+            return Response(
+                {"error": "Old password is incorrect"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        user.save()
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, format=None):
+        """
+        Delete a user.
+        """
+        user = User.objects.get(username=request.data['username'])
+        user.delete()
+        return Response({"message": "User deleted successfully"}, status=status.HTTP_200_OK)
