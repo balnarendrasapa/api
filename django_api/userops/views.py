@@ -9,21 +9,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
 
-class Userops(APIView):
+class UserCreate(APIView):
     """
-    List all users, or create a new user.
+    Create a new user.
     """
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response({"users": serializer.data})
-
     def post(self, request, format=None):
         """
         Create a new user.
@@ -36,11 +25,30 @@ class Userops(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+class UserList(APIView):
+
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, permissions.IsAdminUser]
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response({"users": serializer.data})
+
+class Userops(APIView):
+    """
+    List all users, or create a new user.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def put(self, request, format=None):
         """
         Update a user.
         """
-        user = User.objects.get(username=request.data['username'])
+        user = request.user
         user.email = request.data['email']
 
         # check if old password is correct
@@ -60,7 +68,7 @@ class Userops(APIView):
         """
         Delete a user.
         """
-        user = User.objects.get(username=request.data['username'])
+        user = request.user
         # check if password is correct
         if not user.check_password(request.data['password']):
             return Response(
