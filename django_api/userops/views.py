@@ -37,7 +37,7 @@ class UserList(APIView):
         serializer = UserSerializer(users, many=True)
         return Response({"users": serializer.data})
 
-class Userops(APIView):
+class UserUpdate(APIView):
     """
     List all users, or create a new user.
     """
@@ -63,6 +63,13 @@ class Userops(APIView):
         user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class UserDelete(APIView):
+    """
+    Delete a user.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def delete(self, request, format=None):
         """
