@@ -16,6 +16,7 @@ optional = true
 
 [tool.poetry.group.django.dependencies]
 django = "^4.2.5"
+djangorestframework = "^3.14.0"
 
 
 [tool.poetry.group.fastapi.dependencies]
