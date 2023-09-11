@@ -5,12 +5,17 @@ from django.shortcuts import render
 from .serializers import UserSerializer
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
 
 class Userops(APIView):
     """
     List all users, or create a new user.
     """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, format=None):
         """
         Return a list of all users.
@@ -56,5 +61,11 @@ class Userops(APIView):
         Delete a user.
         """
         user = User.objects.get(username=request.data['username'])
+        # check if password is correct
+        if not user.check_password(request.data['password']):
+            return Response(
+                {"error": "Password is incorrect"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
         user.delete()
         return Response({"message": "User deleted successfully"}, status=status.HTTP_200_OK)
