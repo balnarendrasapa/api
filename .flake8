@@ -1,0 +1,6 @@
+[flake8]
+exclude = 
+    other
+    .github
+
+max-line-length = 88
