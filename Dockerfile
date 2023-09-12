@@ -8,9 +8,13 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
+# Install PostgreSQL development tools
 # Download and install killall 
 RUN apt-get update && apt-get install -y \
-    psmisc
+    postgresql-client \
+    libpq-dev \
+    psmisc \
+    libpython3.11-dev 
 
 # Install make
 RUN apt-get update && apt-get install -y make
@@ -19,7 +23,7 @@ RUN apt-get update && apt-get install -y make
 COPY . /app/
 
 # Install dependencies using Poetry
-RUN pip install poetry uvicorn && \
+RUN pip install poetry uvicorn psycopg2-binary && \
     poetry config virtualenvs.create false && \
     poetry install --with django,fastapi
 
