@@ -12,3 +12,8 @@ stopserver:
 migrate:
 	python django_api/manage.py makemigrations
 	python django_api/manage.py migrate
+
+.PHONY: dev-install
+dev-install:
+	poetry install --with dev
+	pre-commit install
