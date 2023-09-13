@@ -18,6 +18,11 @@ This repository contains devcontainer.json file. you can either choose to open t
 This is optional. There are two githooks configured for this repository. black formatter, flake8 linter. you can install these githooks by running `make dev-install`
 
 ## Running server
-
+### In Dev Environment
 - To run server, run command `make run`. This starts up both the django api and fastapi servers. You can access the django api through `localhost:8080` and you can access fastapi through `localhost:8000`
 - To stop server, run `make stopserver`
+
+### Using docker-compose in root
+
+- To run using docker-compose, cd into the root directory and run `docker-compose up`. This may not be useful for development.
+-There is an image available in this repository If you just want to check this project out, download `other/docker-compose.yml` file and run `docker-compose up`
