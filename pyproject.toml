@@ -26,6 +26,8 @@ djangorestframework-simplejwt = "^5.3.0"
 [tool.poetry.group.fastapi.dependencies]
 fastapi = {extras = ["all"], version = "^0.103.1"}
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
+python-jose = {extras = ["pycryptodome"], version = "^3.3.0"}
+passlib = "^1.7.4"
 
 
 [tool.poetry.group.dev.dependencies]
