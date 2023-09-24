@@ -28,6 +28,10 @@ fastapi = {extras = ["all"], version = "^0.103.1"}
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 python-jose = {extras = ["pycryptodome"], version = "^3.3.0"}
 passlib = "^1.7.4"
+python-dotenv = "^1.0.0"
+pyjwt = "^2.8.0"
+psycopg2-binary = "^2.9.7"
+sqlalchemy = "^2.0.21"
 
 
 [tool.poetry.group.dev.dependencies]
